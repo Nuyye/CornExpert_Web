@@ -38,15 +38,19 @@ const MainLayout = ({ children }) => {
       <main className="main-content-area">
         
         {/* TOMBOL HAMBURGER (CUMA MUNCUL DI HP) */}
-        <div className="d-md-none p-3 pb-0 d-flex align-items-center justify-content-between">
-            <h5 className="fw-bold text-success m-0">CornExpert</h5>
-            <button 
-                onClick={() => setIsSidebarOpen(true)} 
-                className="btn btn-light shadow-sm text-success border"
-            >
-                <RiMenuLine size={24}/>
-            </button>
-        </div>
+<div 
+    className="d-md-none p-3 pb-0 d-flex align-items-center justify-content-between position-relative" 
+    style={{ zIndex: 1020 }} 
+>
+    <h5 className="fw-bold text-success m-0">CornExpert</h5>
+    <button 
+        onClick={() => setIsSidebarOpen(true)} 
+        className="btn btn-light shadow-sm text-success border"
+        style={{ cursor: 'pointer' }} // Tambah ini biar yakin bisa diklik
+    >
+        <RiMenuLine size={24}/>
+    </button>
+</div>
 
         {/* TOPBAR BIASA */}
         <div className="d-none d-md-block">

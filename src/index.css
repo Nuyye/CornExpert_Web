@@ -127,17 +127,22 @@ body {
     top: 0;
     left: 0;
     height: 100vh;
-    z-index: 1055; /* Z-Index TINGGI biar di atas overlay */
+    z-index: 1055;
     box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
-
-    /* TIPS: Biar animasi HP mulus & tajem */
     will-change: transform;
     -webkit-font-smoothing: antialiased;
+
+    /* TAMBAHAN PENTING: */
+    /* Pas dia ngumpet, bikin dia 'invisible' biar gak bisa diklik/nutupin */
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
   }
 
   /* Sidebar Aktif: MUNCUL */
   .sidebar-container.show {
     transform: translateX(0);
+    /* Pas muncul, baru kita bikin visible lagi */
+    visibility: visible;
   }
 
   /* Layar Hitam (Backdrop) */
