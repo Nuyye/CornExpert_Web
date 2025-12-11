@@ -113,43 +113,48 @@ body {
 
 /* 2. Layout Mobile (Layar HP < 768px) */
 @media (max-width: 768px) {
-  /* Reset Konten Utama biar Full Width di HP */
+  /* Reset Konten Utama */
   .main-content-area {
     margin-left: 0 !important;
     width: 100% !important;
-    padding-top: 10px; /* Jaga jarak dikit */
+    padding-top: 10px;
   }
 
-  /* Sidebar Default: NGUMPET KE KIRI (Off-Canvas) */
+  /* Sidebar: NGUMPET KE KIRI */
   .sidebar-container {
-    transform: translateX(-100%); /* Geser keluar layar */
+    transform: translateX(-100%);
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
-    z-index: 1050; /* Pastikan di atas semua elemen */
+    z-index: 1055; /* Z-Index TINGGI biar di atas overlay */
     box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+
+    /* TIPS: Biar animasi HP mulus & tajem */
+    will-change: transform;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Sidebar Aktif: MUNCUL (Slide In) */
+  /* Sidebar Aktif: MUNCUL */
   .sidebar-container.show {
-    transform: translateX(0); /* Balik ke posisi normal */
+    transform: translateX(0);
   }
 
-  /* Layar Hitam (Backdrop) di belakang Sidebar */
+  /* Layar Hitam (Backdrop) */
   .sidebar-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5); /* Hitam transparan */
-    z-index: 1040; /* Di bawah sidebar, tapi di atas konten */
-    display: none; /* Default mati */
-    backdrop-filter: blur(3px); /* Efek blur dikit biar keren */
+    background: rgba(0, 0, 0, 0.7); /* Hitam pekat 70%, TANPA BLUR */
+    z-index: 1050; /* Di bawah sidebar */
+    display: none;
+
+    /* HAPUS BACKDROP-FILTER BIAR GAK NGEBLUR/BERAT */
+    /* backdrop-filter: blur(3px); <--- INI BIANG KEROKNYA KITA BUANG */
   }
 
-  /* Munculin overlay kalau sidebar aktif */
   .sidebar-overlay.show {
     display: block;
   }
