@@ -155,7 +155,7 @@ body {
     /* backdrop-filter: blur(3px); <--- INI BIANG KEROKNYA KITA BUANG */
   }
 
-  .sidebar-overlay.show {
+  /* .sidebar-overlay.show {
     display: block;
-  }
+  } */
 }
