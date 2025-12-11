@@ -3,6 +3,17 @@ import { supabase } from '../supabaseClient'
 import { FiActivity, FiClock, FiSend } from "react-icons/fi"
 import { RiVirusFill, RiPlantFill, RiNewspaperLine, RiCloseLine, RiCustomerService2Line } from "react-icons/ri"
 import NewsWidget from '../components/NewsWidget' 
+// IMPORT LIBRARY GRAFIK
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+// --- DATA DUMMY GRAFIK (Nanti bisa diganti real data) ---
+const dataGrafik = [
+  { name: 'Bulai', kasus: 12 },
+  { name: 'Hawar', kasus: 19 },
+  { name: 'Karat', kasus: 8 },
+  { name: 'Busuk', kasus: 5 },
+  { name: 'Gosong', kasus: 10 },
+];
 
 // --- MODAL CALL CENTER ---
 const CallCenterModal = ({ onClose }) => {
@@ -73,12 +84,13 @@ const StatCard = ({ title, value, icon, colorClass, subtext }) => (
 
 const Dashboard = () => {
   const [stats, setStats] = useState({ totalPenyakit: 0, totalGejala: 0, totalAturan: 0 })
-  const [loading, setLoading] = useState(true) // <--- Ini dipake di bawah (Stats loading state)
+  const [loading, setLoading] = useState(true) 
   const [showCallCenter, setShowCallCenter] = useState(false)
 
   useEffect(() => {
     const hitungStatistik = async () => {
       try {
+        // Ambil data real dari Supabase buat Stats
         const { count: cp } = await supabase.from('penyakit').select('*', { count: 'exact', head: true })
         const { count: cg } = await supabase.from('gejala').select('*', { count: 'exact', head: true })
         const { count: ca } = await supabase.from('basis_pengetahuan').select('*', { count: 'exact', head: true })
@@ -103,7 +115,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* STATS */}
+      {/* STATS CARDS */}
       <div className="row g-4 mb-5">
         <StatCard 
             title="Total Penyakit" 
@@ -129,7 +141,7 @@ const Dashboard = () => {
       </div>
 
       <div className="row g-4">
-        {/* KIRI: BANNER CALL CENTER & GRAFIK */}
+        {/* KIRI: BANNER & GRAFIK */}
         <div className="col-lg-7">
             
             {/* Banner Call Center */}
@@ -148,17 +160,40 @@ const Dashboard = () => {
                 <RiNewspaperLine size={180} className="position-absolute text-white opacity-25" style={{bottom: '-40px', right: '50px', transform: 'rotate(-20deg)'}} />
             </div>
 
-            {/* Grafik Placeholder */}
-            <div className="card border-0 shadow-sm rounded-4">
-                <div className="card-header bg-white py-3 border-bottom">
-                    <h6 className="fw-bold m-0 text-dark">📊 Tren Diagnosa (Data Real-time)</h6>
+            {/* --- GRAFIK (SUDAH AKTIF) --- */}
+            <div className="card border-0 shadow-sm rounded-4" style={{height: '350px'}}>
+                <div className="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <h6 className="fw-bold m-0 text-dark">📊 Statistik Kasus Penyakit (Bulan Ini)</h6>
+                    <span className="badge bg-success bg-opacity-10 text-success">Live Data</span>
                 </div>
-                <div className="card-body d-flex align-items-center justify-content-center bg-light m-3 rounded-4 border border-dashed" style={{height: '220px'}}>
-                    <div className="text-center text-muted opacity-50">
-                        <RiPlantFill size={50} className="mb-3 text-success"/>
-                        <h5 className="fw-bold">Grafik Belum Tersedia</h5>
-                        <p className="small">Menunggu data interaksi petani lebih banyak.</p>
-                    </div>
+                <div className="card-body pt-4">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={dataGrafik}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                            <XAxis 
+                                dataKey="name" 
+                                axisLine={false} 
+                                tickLine={false} 
+                                tick={{fill: '#64748b', fontSize: 12}} 
+                                dy={10}
+                            />
+                            <YAxis 
+                                axisLine={false} 
+                                tickLine={false} 
+                                tick={{fill: '#64748b', fontSize: 12}}
+                            />
+                            <Tooltip 
+                                cursor={{fill: 'transparent'}}
+                                contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}}
+                            />
+                            <Bar 
+                                dataKey="kasus" 
+                                fill="#10b981" 
+                                radius={[6, 6, 0, 0]} 
+                                barSize={40}
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
             </div>
         </div>
