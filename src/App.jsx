@@ -53,7 +53,7 @@ const MainLayout = ({ children }) => {
 </div>
 
         {/* TOPBAR BIASA */}
-        <div className="d-none d-md-block">
+        <div className="mb-3">
              <Topbar />
         </div>
 
